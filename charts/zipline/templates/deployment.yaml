@@ -60,7 +60,7 @@ spec:
                 secretKeyRef:
                   key: coreSecret
                   name: zipline-secrets
-            {{- with . Values.coreConfig }}
+            {{- with .Values.coreConfig }}
               {{- if .returnHttps }}
             - name: CORE_RETURN_HTTPS
               value: {{ .returnHttps }}
