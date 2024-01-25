@@ -1,11 +1,8 @@
-# Default values for test-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: ghcr.io/diced
+  image: zipline
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -23,6 +20,34 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+environment:
+
+
+coreConfig:
+  returnHttps:
+  database:
+    userName:
+    password:
+    host:
+    name:
+  secret: changethis
+  host:
+  port: 3000
+  intervals:
+    stats:
+    invites:
+    thumbnails:
+  compression:
+    enabled:
+    threshold:
+
+persistence:
+  config:
+    enabled: true
+    mountPath: /app/config
+    size: 1Gi
+    retain: false
+
 podAnnotations: {}
 
 podSecurityContext: {}
@@ -38,7 +63,6 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
 
 ingress:
   enabled: false
@@ -80,5 +104,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-test: false

@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "zipline.fullname" . }}
+  labels:
+    {{- include "zipline.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "zipline.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "zipline.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "zipline.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}/{{ .Values.image.image }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.coreConfig.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: DATASOURCE_TYPE
+              value: local
+            - name: CORE_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: databaseUrl
+                  name: zipline-secrets
+            - name: CORE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: coreSecret
+                  name: zipline-secrets
+            {{- with . Values.coreConfig }}
+              {{- if .returnHttps }}
+            - name: CORE_RETURN_HTTPS
+              value: {{ .returnHttps }}
+              {{- end }}
+            {{- if .host }}
+            - name: CORE_HOST
+              value: {{ .host }}
+            {{- end }}
+            {{- if .port }}
+            - name: CORE_PORT
+              value: {{ .port }}
+            {{- end }}
+            {{- if .intervals.thumbnails }}
+            - name: CORE_THUMBNAILS_INTERVAL
+              value: {{ .intervals.thumbnails }}
+            {{- end }}
+            {{- if .intervals.invites }}
+            - name: CORE_INVITES_INTERVAL
+              value: {{ .intervals.invites }}
+            {{- end }}
+            {{- if .intervals.stats }}
+            - name: CORE_STATS_INTERVAL
+              value: {{ .intervals.stats }}
+            {{- end }}
+            {{- if .compression.enabled }}
+            - name: CORE_COMPRESSION_ENABLED
+              value: {{ .compression.enabled }}
+            {{- end }}
+            {{- if and (.compression.enabled) (.compression.threshold) }}
+            - name: CORE_COMPRESSION_THRESHOLD
+              value: {{ .compression.threshold }}
+            {{- end }}
+            {{- end }}
+            {{- range $key, $value := .Values.environment }}
+            - name: {{ $key | quote }}
+              value: {{ $value | quote}}
+            {{- end }}
+        - volumeMounts:
+            - mountPath: {{ .Values.persistence.config.mountPath }}
+              name: {{ include "zipline.fullname" . }}-pvc
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: {{ include "zipline.fullname" . }}-storage
+          {{- if .Values.persistence.config.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "zipline.fullname" . }}-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: zipline-secrets
+data:
+  {{- with .Values.coreConfig.database }}
+  databaseUrl: {{ printf "postgres://%s:%s@%s/%s"  .userName .password .host .name | b64enc | quote }}
+  {{- end }}
+  coreSecret: {{ .Values.coreConfig.secret | b64enc | quote }}
+

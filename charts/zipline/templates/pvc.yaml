@@ -1,0 +1,15 @@
+{{- with .Values.persistence }}
+{{- $fullName := include "zipline.fullname" . -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ $fullName }}-pvc
+  annotations:
+    {{- if .config.retain }}
+    "helm.sh/resource-policy": keep
+    {{- end }}
+spec:
+  resources:
+    requests:
+      storage: {{ .config.size }}
+{{- end }}
