@@ -11,4 +11,15 @@ entries:
     urls:
     - https://github.com/Sheldan/helm-charts/releases/download/test-chart-0.1.0/test-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2024-01-24T23:39:48.245672758Z"
+  zipline:
+  - apiVersion: v2
+    appVersion: 3.7.8
+    created: "2024-01-25T23:28:22.981062563Z"
+    description: A helm chart to deploy zipline file upload server
+    digest: 55412f61afce2b1f7d898fe9f85316a8e1e7d427d4d942c18ebf70c075b96793
+    name: zipline
+    type: application
+    urls:
+    - https://github.com/Sheldan/helm-charts/releases/download/zipline-0.1.0/zipline-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-01-25T23:28:22.981092479Z"
