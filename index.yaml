@@ -3,6 +3,16 @@ entries:
   zipline:
   - apiVersion: v2
     appVersion: 3.7.8
+    created: "2024-01-25T23:39:45.675706415Z"
+    description: A helm chart to deploy zipline file upload server
+    digest: 171e651a6ab0029469d8564863511c4210fb21dd5d6619d6bd1cbb8eb1ceb15a
+    name: zipline
+    type: application
+    urls:
+    - https://github.com/Sheldan/helm-charts/releases/download/zipline-0.2.0/zipline-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 3.7.8
     created: "2024-01-25T23:28:22.981062563Z"
     description: A helm chart to deploy zipline file upload server
     digest: 55412f61afce2b1f7d898fe9f85316a8e1e7d427d4d942c18ebf70c075b96793
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/Sheldan/helm-charts/releases/download/zipline-0.1.0/zipline-0.1.0.tgz
     version: 0.1.0
-generated: "2024-01-25T23:28:22.981092479Z"
+generated: "2024-01-25T23:39:45.675718106Z"
