@@ -128,7 +128,7 @@ metadata:
   name: zipline-secrets
 data:
   {{- with .Values.coreConfig.database }}
-  databaseUrl: {{ printf "postgres://%s:%s@%s:%s/%s" .userName .password .host .port .name | b64enc | quote }}
+  databaseUrl: {{ printf "postgres://%s:%s@%s:%d/%s" .userName .password .host (.port | int) .name | b64enc | quote }}
   {{- end }}
   coreSecret: {{ .Values.coreConfig.secret | b64enc | quote }}
 
