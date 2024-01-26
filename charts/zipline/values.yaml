@@ -45,7 +45,7 @@ coreConfig:
 persistence:
   config:
     enabled: true
-    mountPath: /zipline
+    mountPath: /zipline/upload
     size: 1Gi
     retain: false
 

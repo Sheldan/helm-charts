@@ -101,11 +101,13 @@ spec:
           volumeMounts:
             {{- if .Values.persistence.config.enabled }}
             - mountPath: {{ .Values.persistence.config.mountPath }}
-              name: {{ include "zipline.fullname" . }}-storage
+              name: {{ include "zipline.fullname" . }}-uploads
             {{- else }}
-            - mountPath: "/zipline"
-              name: {{ include "zipline.fullname" . }}-storage
+            - mountPath: "/zipline/uploads"
+              name: {{ include "zipline.fullname" . }}-uploads
             {{- end}}
+            - mountPath: "/zipline/public"
+              name: {{ include "zipline.fullname" . }}-public
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -119,13 +121,15 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: {{ include "zipline.fullname" . }}-storage
+        - name: {{ include "zipline.fullname" . }}-uploads
           {{- if .Values.persistence.config.enabled }}
           persistentVolumeClaim:
             claimName: {{ include "zipline.fullname" . }}-pvc
           {{- else }}
           emptyDir: {}
           {{- end }}
+        - name: {{ include "zipline.fullname" . }}-public
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Secret
