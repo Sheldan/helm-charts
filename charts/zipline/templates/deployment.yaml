@@ -98,7 +98,7 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $value | quote}}
             {{- end }}
-        - volumeMounts:
+          volumeMounts:
             {{- if .Values.persistence.config.enabled }}
             - mountPath: {{ .Values.persistence.config.mountPath }}
               name: {{ include "zipline.fullname" . }}-storage
