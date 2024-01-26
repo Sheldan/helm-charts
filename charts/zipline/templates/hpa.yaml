@@ -2,7 +2,7 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "zipline.fullname" . }}
+  name: {{ include "zipline.fullname" . }}-hpa
   labels:
     {{- include "zipline.labels" . | nindent 4 }}
 spec:

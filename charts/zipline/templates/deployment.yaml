@@ -71,19 +71,19 @@ spec:
             {{- end }}
             {{- if .port }}
             - name: CORE_PORT
-              value: {{ .port }}
+              value: {{ .port | quote }}
             {{- end }}
             {{- if .intervals.thumbnails }}
             - name: CORE_THUMBNAILS_INTERVAL
-              value: {{ .intervals.thumbnails }}
+              value: {{ .intervals.thumbnails | quote }}
             {{- end }}
             {{- if .intervals.invites }}
             - name: CORE_INVITES_INTERVAL
-              value: {{ .intervals.invites }}
+              value: {{ .intervals.invites | quote }}
             {{- end }}
             {{- if .intervals.stats }}
             - name: CORE_STATS_INTERVAL
-              value: {{ .intervals.stats }}
+              value: {{ .intervals.stats | quote }}
             {{- end }}
             {{- if .compression.enabled }}
             - name: CORE_COMPRESSION_ENABLED
