@@ -99,8 +99,13 @@ spec:
               value: {{ $value | quote}}
             {{- end }}
         - volumeMounts:
+            {{- if .Values.persistence.config.enabled }}
             - mountPath: {{ .Values.persistence.config.mountPath }}
-              name: {{ include "zipline.fullname" . }}-pvc
+              name: {{ include "zipline.fullname" . }}-storage
+            {{- else }}
+            - mountPath: "/zipline"
+              name: {{ include "zipline.fullname" . }}-storage
+            {{- end}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
