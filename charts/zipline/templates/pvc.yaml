@@ -13,5 +13,7 @@ spec:
   resources:
     requests:
       storage: {{ .config.size }}
+  accessModes:
+    - ReadWriteOnce
 {{- end }}
 {{- end }}
