@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   v-rising:
   - apiVersion: v2
+    created: "2024-04-16T21:46:22.039059374Z"
+    description: A Helm chart for Kubernetes
+    digest: ef999a7b1d6d634d12ef726ccff8498fa9d0a0e5d841e69a7f21678ce5f53954
+    name: v-rising
+    type: application
+    urls:
+    - https://github.com/Sheldan/helm-charts/releases/download/v-rising-0.3.0/v-rising-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
     created: "2024-04-16T21:42:44.293705965Z"
     description: A Helm chart for Kubernetes
     digest: 7fd70cb3d28a04074e1fb81daddd4c05ed29289146157a615c5873a2ad6298a0
@@ -131,4 +140,4 @@ entries:
     urls:
     - https://github.com/Sheldan/helm-charts/releases/download/zipline-0.1.0/zipline-0.1.0.tgz
     version: 0.1.0
-generated: "2024-04-16T21:42:44.293783521Z"
+generated: "2024-04-16T21:46:22.039132832Z"
