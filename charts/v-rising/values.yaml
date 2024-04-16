@@ -1,0 +1,60 @@
+replicaCount: 1
+
+image:
+  image: trueosiris/vrising
+  pullPolicy: IfNotPresent
+  tag: "2.0"
+
+vrising:
+  serverName:
+  worldName:
+  timezone: "Europe/Vienna"
+
+persistence:
+  config:
+    enabled: true
+    size: 1Gi
+    retain: true
+
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext:
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  gamePort: 9876
+  queryPort: 9877
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
