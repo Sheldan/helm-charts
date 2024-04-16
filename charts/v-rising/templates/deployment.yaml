@@ -44,6 +44,10 @@ spec:
           env:
             - name: TZ
               value: {{ .Values.vrising.timezone }}
+            - name: SERVERNAME
+              value: {{ .Values.vrising.serverName }}
+            - name: WORLDNAME
+              value: {{ .Values.vrising.worldName }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
